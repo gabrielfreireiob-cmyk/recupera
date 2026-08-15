@@ -27,6 +27,15 @@
   .tab { background:var(--panel); border:1px solid var(--border); color:var(--text-dim); padding:9px 16px; border-radius:20px; font-size:13px; cursor:pointer; font-weight:600; }
   .tab.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
   .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 26px; margin-bottom: 18px; }
+  .input-method-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .method-tab { flex: 1; background: #0d0d0d; border: 1.5px solid var(--border); color: var(--text-dim); padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+  .method-tab.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+  .big-upload { display: block; border: 2px dashed var(--border); border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; transition: border-color 0.15s ease; }
+  .big-upload:hover { border-color: var(--gold); }
+  .upload-icon { font-size: 40px; margin-bottom: 10px; }
+  .upload-text { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .upload-hint { font-size: 12.5px; color: var(--text-dim); }
+  .link-btn { background: none; border: none; color: var(--gold); font-size: 13px; text-decoration: underline; cursor: pointer; margin-top: 10px; display: block; margin-left: auto; margin-right: auto; }
   label { display: block; font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
   textarea { width: 100%; background: #0d0d0d; border: 1px solid var(--border); border-radius: 8px; padding: 13px 14px; color: var(--text); font-size: 14.5px; min-height: 220px; line-height: 1.6; resize: vertical; font-family: 'Inter', sans-serif; }
   textarea:focus { outline: none; border-color: var(--gold); }
@@ -102,16 +111,34 @@
 
   <div id="analyzeView">
     <div class="card">
-      <label for="conversation">Conversa (copia e cola do WhatsApp)</label>
-      <textarea id="conversation" placeholder="Cliente: Oi, quanto custa o serviço?&#10;Você: Boa tarde! Fica R$500.&#10;Cliente: Ah, vou pensar e te retorno."></textarea>
-
-      <div class="examples">
-        <div class="example-chip" onclick="loadExample(1)">Ver exemplo: venda perdida</div>
-        <div class="example-chip" onclick="loadExample(2)">Ver exemplo: quase fechou</div>
-        <div class="example-chip" onclick="loadExample(3)">Ver exemplo: fechou bem</div>
+      <div class="input-method-tabs">
+        <button class="method-tab active" id="methodPrintBtn" onclick="setMethod('print')">📷 Enviar print</button>
+        <button class="method-tab" id="methodTextBtn" onclick="setMethod('text')">✍️ Colar texto</button>
       </div>
 
-      <div class="warn-box" id="warnBox">Essa conversa parece bem curta — o diagnóstico fica mais preciso com pelo menos umas 4-5 trocas de mensagem. Pode analisar mesmo assim, só um aviso.</div>
+      <div id="printMethod">
+        <label class="big-upload" id="uploadArea" onclick="document.getElementById('imageInput').click()">
+          <input type="file" id="imageInput" accept="image/*" style="display:none;" onchange="handleImageSelect(event)">
+          <div id="uploadEmpty">
+            <div class="upload-icon">📷</div>
+            <div class="upload-text">Toque aqui pra escolher o print da conversa</div>
+            <div class="upload-hint">Tira um print do WhatsApp e envia direto, sem precisar copiar nada</div>
+          </div>
+          <img id="uploadPreview" style="display:none; max-width:100%; border-radius:10px;">
+        </label>
+        <button class="link-btn" id="removeImageBtn" onclick="removeImage(event)" style="display:none;">Trocar imagem</button>
+      </div>
+
+      <div id="textMethod" style="display:none;">
+        <label for="conversation">Conversa (copia e cola do WhatsApp)</label>
+        <textarea id="conversation" placeholder="Cliente: Oi, quanto custa o serviço?&#10;Você: Boa tarde! Fica R$500.&#10;Cliente: Ah, vou pensar e te retorno."></textarea>
+        <div class="examples">
+          <div class="example-chip" onclick="loadExample(1)">Ver exemplo: venda perdida</div>
+          <div class="example-chip" onclick="loadExample(2)">Ver exemplo: quase fechou</div>
+          <div class="example-chip" onclick="loadExample(3)">Ver exemplo: fechou bem</div>
+        </div>
+        <div class="warn-box" id="warnBox">Essa conversa parece bem curta — o diagnóstico fica mais preciso com pelo menos umas 4-5 trocas de mensagem. Pode analisar mesmo assim, só um aviso.</div>
+      </div>
 
       <div class="field" style="margin-top:14px;">
         <label for="dealValue">Quanto valia essa oportunidade? (opcional)</label>
@@ -211,6 +238,44 @@ var EXAMPLES = {
 };
 
 var DAILY_LIMIT = 3;
+var selectedImageBase64 = null;
+var selectedImageMime = null;
+var currentMethod = 'print';
+
+function setMethod(method) {
+  currentMethod = method;
+  document.getElementById('methodPrintBtn').classList.toggle('active', method === 'print');
+  document.getElementById('methodTextBtn').classList.toggle('active', method === 'text');
+  document.getElementById('printMethod').style.display = method === 'print' ? 'block' : 'none';
+  document.getElementById('textMethod').style.display = method === 'text' ? 'block' : 'none';
+}
+
+function handleImageSelect(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  selectedImageMime = file.type || 'image/jpeg';
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var base64full = e.target.result;
+    selectedImageBase64 = base64full.split(',')[1];
+    document.getElementById('uploadEmpty').style.display = 'none';
+    var img = document.getElementById('uploadPreview');
+    img.src = base64full;
+    img.style.display = 'block';
+    document.getElementById('removeImageBtn').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeImage(event) {
+  event.stopPropagation();
+  selectedImageBase64 = null;
+  selectedImageMime = null;
+  document.getElementById('imageInput').value = '';
+  document.getElementById('uploadEmpty').style.display = 'block';
+  document.getElementById('uploadPreview').style.display = 'none';
+  document.getElementById('removeImageBtn').style.display = 'none';
+}
 
 function loadExample(n) {
   document.getElementById('conversation').value = EXAMPLES[n];
@@ -338,8 +403,8 @@ function analyze() {
   document.getElementById('recoveryContent').style.display = 'none';
   document.getElementById('recoverBtn').style.display = 'block';
 
-  if (!conversation) {
-    errorBox.textContent = 'Cola a conversa que voce quer analisar.';
+  if (!conversation && !selectedImageBase64) {
+    errorBox.textContent = currentMethod === 'print' ? 'Escolhe um print da conversa antes de analisar.' : 'Cola a conversa que voce quer analisar.';
     errorBox.style.display = 'block';
     return;
   }
@@ -358,7 +423,11 @@ function analyze() {
   fetch(WORKER_URL + '/analisar', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ conversation: conversation })
+    body: JSON.stringify({
+      conversation: conversation,
+      image_base64: selectedImageBase64,
+      image_mime_type: selectedImageMime
+    })
   }).then(function(response) {
     return response.json().then(function(parsed) {
       if (!response.ok) throw new Error(parsed.error || 'Erro ao analisar.');
