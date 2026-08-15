@@ -88,6 +88,13 @@
   .chat-input:focus { outline: none; border-color: var(--gold); }
   .chat-send-btn { background: var(--gold); color: #150e02; border: none; border-radius: 8px; padding: 11px 16px; font-size: 13px; font-weight: 700; cursor: pointer; }
   .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .chat-attach-btn { background: #0d0d0d; border: 1px solid var(--border); color: var(--text-dim); border-radius: 8px; padding: 11px 13px; font-size: 15px; cursor: pointer; flex-shrink: 0; }
+  .chat-attach-btn:hover { border-color: var(--gold); }
+  .chat-attachments { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .chat-attachment-thumb { position: relative; width: 52px; height: 52px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .chat-attachment-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .chat-attachment-remove { position: absolute; top: 1px; right: 1px; background: rgba(13,13,13,0.85); color: var(--red); border: none; border-radius: 50%; width: 16px; height: 16px; font-size: 10px; line-height: 1; cursor: pointer; }
+  .chat-bubble.user img { max-width: 100%; border-radius: 8px; margin-top: 6px; display: block; }
   .cta-box p { font-size: 13.5px; color: var(--text); margin-bottom: 10px; line-height: 1.5; }
   .cta-box a { display:inline-block; background: var(--gold); color: #150e02; text-decoration:none; font-weight:700; font-size: 13.5px; padding: 10px 18px; border-radius: 8px; }
   .share-btn { width:100%; background:transparent; border:1px solid var(--border); color:var(--text-dim); border-radius:8px; padding:12px; font-size:13.5px; margin-top:10px; cursor:pointer; }
@@ -214,7 +221,10 @@
 
         <div class="section-title">Tem mais contexto que não apareceu no print?</div>
         <div class="chat-box" id="chatMessages"></div>
+        <div class="chat-attachments" id="chatAttachments"></div>
         <div class="chat-input-row">
+          <button class="chat-attach-btn" id="chatAttachBtn" onclick="document.getElementById('chatImageInput').click()" title="Anexar print">📎</button>
+          <input type="file" id="chatImageInput" accept="image/*" multiple style="display:none;" onchange="handleChatImageSelect(event)">
           <input type="text" id="chatInput" class="chat-input" placeholder="Conta o que rolou antes, depois, ou fora da tela...">
           <button class="chat-send-btn" id="chatSendBtn" onclick="sendChat()">Enviar</button>
         </div>
@@ -366,11 +376,43 @@ function incrementTodayCount() {
 
 var chatHistory = [];
 var lastDiagnosisContext = '';
+var chatAttachedImages = [];
+
+function handleChatImageSelect(event) {
+  var files = Array.from(event.target.files || []);
+  files.forEach(function(file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var base64full = e.target.result;
+      chatAttachedImages.push({
+        base64: base64full.split(',')[1],
+        mime: file.type || 'image/jpeg',
+        preview: base64full
+      });
+      renderChatAttachments();
+    };
+    reader.readAsDataURL(file);
+  });
+  event.target.value = '';
+}
+
+function removeChatAttachment(index) {
+  chatAttachedImages.splice(index, 1);
+  renderChatAttachments();
+}
+
+function renderChatAttachments() {
+  var box = document.getElementById('chatAttachments');
+  box.innerHTML = chatAttachedImages.map(function(img, i) {
+    return '<div class="chat-attachment-thumb"><img src="' + img.preview + '"><button class="chat-attachment-remove" onclick="removeChatAttachment(' + i + ')">✕</button></div>';
+  }).join('');
+}
 
 function renderChatMessages() {
   var box = document.getElementById('chatMessages');
   box.innerHTML = chatHistory.map(function(m) {
-    return '<div class="chat-bubble ' + m.role + '">' + m.text + '</div>';
+    var imgsHtml = (m.images || []).map(function(img) { return '<img src="' + img + '">'; }).join('');
+    return '<div class="chat-bubble ' + m.role + '">' + m.text + imgsHtml + '</div>';
   }).join('');
   box.scrollTop = box.scrollHeight;
 }
@@ -378,12 +420,19 @@ function renderChatMessages() {
 function sendChat() {
   var input = document.getElementById('chatInput');
   var mensagem = input.value.trim();
-  if (!mensagem) return;
+  var imagesToSend = chatAttachedImages.slice();
+  if (!mensagem && imagesToSend.length === 0) return;
   var btn = document.getElementById('chatSendBtn');
 
-  chatHistory.push({ role: 'user', text: mensagem });
+  chatHistory.push({
+    role: 'user',
+    text: mensagem || '(enviou print sem texto)',
+    images: imagesToSend.map(function(img) { return img.preview; })
+  });
   renderChatMessages();
   input.value = '';
+  chatAttachedImages = [];
+  renderChatAttachments();
   btn.disabled = true;
 
   fetch(WORKER_URL + '/chat', {
@@ -391,8 +440,9 @@ function sendChat() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contexto: lastDiagnosisContext,
-      mensagem: mensagem,
-      historico: chatHistory.slice(0, -1)
+      mensagem: mensagem || 'Veja o(s) print(s) anexado(s) para mais contexto.',
+      historico: chatHistory.slice(0, -1).map(function(h) { return { role: h.role, text: h.text }; }),
+      imagens: imagesToSend.map(function(img) { return { base64: img.base64, mime_type: img.mime }; })
     })
   }).then(function(response) {
     return response.json();
