@@ -77,6 +77,20 @@
   .lib-box { background: #0d0d0d; border: 1px dashed var(--gold); border-radius: 10px; padding: 14px 16px; font-size: 13.5px; line-height: 1.6; margin-top: 6px; color: var(--text-dim); }
   .lib-box b { color: var(--gold); }
   .error-box { background: var(--red-dim); border: 1px solid var(--red); border-radius: 10px; padding: 14px 16px; font-size: 13.5px; margin-top: 14px; display: none; }
+  .limit-box { display: none; background: var(--panel); border: 1px solid var(--gold); border-radius: 12px; padding: 24px 20px; margin-top: 14px; text-align: center; }
+  .limit-icon { font-size: 32px; margin-bottom: 8px; }
+  .limit-title { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .limit-text { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-bottom: 16px; }
+  .limit-btn { display: inline-block; background: var(--gold); color: #150e02; font-weight: 700; font-size: 14px; padding: 12px 22px; border-radius: 8px; text-decoration: none; }
+  .limit-divider { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin: 18px 0 10px; }
+  .verify-row { display: flex; gap: 8px; }
+  .verify-input { flex: 1; background: #0d0d0d; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); font-size: 13px; font-family: 'Inter', sans-serif; }
+  .verify-input:focus { outline: none; border-color: var(--gold); }
+  .verify-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 8px; padding: 10px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .verify-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .verify-msg { font-size: 12px; margin-top: 10px; min-height: 16px; }
+  .verify-msg.success { color: var(--green); }
+  .verify-msg.fail { color: var(--red); }
   .loading { display: none; text-align: center; padding: 26px 0; color: var(--text-dim); font-size: 14px; }
   .cta-box { display:none; background: linear-gradient(135deg, var(--gold-dim), transparent); border: 1px solid var(--gold); border-radius: 10px; padding: 18px 20px; margin-top: 20px; text-align:center; }
   .chat-box { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; background: #0d0d0d; border: 1px solid var(--border); border-radius: 10px; padding: 14px; min-height: 60px; max-height: 340px; overflow-y: auto; }
@@ -174,6 +188,18 @@
 
       <button class="btn" id="analyzeBtn" onclick="analyze()">Analisar conversa</button>
       <div class="error-box" id="errorBox"></div>
+      <div class="limit-box" id="limitBox">
+        <div class="limit-icon">⏳</div>
+        <div class="limit-title">Suas 3 análises grátis de hoje acabaram</div>
+        <div class="limit-text">Volta amanhã pra testar mais 3 de graça, ou assina o plano mensal e analisa sem limite, com histórico completo salvo.</div>
+        <a href="#" target="_blank" id="limitCheckoutBtn" class="limit-btn">Assinar plano mensal — R$29,90/mês</a>
+        <div class="limit-divider">já é assinante?</div>
+        <div class="verify-row">
+          <input type="email" id="subscriberEmail" class="verify-input" placeholder="Seu e-mail de compra">
+          <button class="verify-btn" id="verifyBtn" onclick="verificarAssinante()">Verificar</button>
+        </div>
+        <div class="verify-msg" id="verifyMsg"></div>
+      </div>
     </div>
 
     <div class="loading" id="loading">Analisando a conversa...</div>
@@ -269,6 +295,11 @@
 // IMPORTANTE: troque pela URL real do seu Cloudflare Worker depois de publicar.
 // Exemplo: 'https://recupera-worker.seunome.workers.dev'
 var WORKER_URL = 'https://recupera-api.gabrielfreireiob.workers.dev';
+
+// IMPORTANTE: troque pelo link real do seu checkout de assinatura na Cakto.
+// Exemplo: 'https://pay.cakto.com.br/xxxxxxx'
+var CAKTO_CHECKOUT_URL = 'https://pay.cakto.com.br/SEU-LINK-AQUI';
+document.getElementById('limitCheckoutBtn').href = CAKTO_CHECKOUT_URL;
 
 var LIBRARY = {
   abertura: "<b>Capitulo 03 - Script de abertura:</b> os primeiros 60 segundos decidem se o cliente continua ou some. Abra sempre confirmando interesse e puxando pra uma pergunta, nunca so respondendo o que foi perguntado.",
@@ -377,6 +408,59 @@ function renderHistory() {
   list.innerHTML = hist.map(function(h) {
     return '<div class="hist-item"><div class="hist-score">' + h.nota + '</div><div class="hist-preview">' + h.preview + '...</div><div class="hist-date">' + h.date + '</div></div>';
   }).join('');
+}
+
+function isAssinanteAtivo() {
+  var cache = localStorage.getItem('recupera_assinante_cache');
+  if (!cache) return false;
+  try {
+    var data = JSON.parse(cache);
+    var umDiaMs = 24 * 60 * 60 * 1000;
+    if (Date.now() - data.verificadoEm > umDiaMs) return false; // cache expirou, precisa reverificar
+    return data.ativo === true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function verificarAssinante() {
+  var input = document.getElementById('subscriberEmail');
+  var email = input.value.trim();
+  var msg = document.getElementById('verifyMsg');
+  var btn = document.getElementById('verifyBtn');
+
+  if (!email) {
+    msg.textContent = 'Digita o e-mail que você usou na compra.';
+    msg.className = 'verify-msg fail';
+    return;
+  }
+
+  btn.disabled = true;
+  msg.textContent = 'Verificando...';
+  msg.className = 'verify-msg';
+
+  fetch(WORKER_URL + '/verificar-assinante?email=' + encodeURIComponent(email))
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.ativo) {
+        localStorage.setItem('recupera_assinante_cache', JSON.stringify({ email: email, ativo: true, verificadoEm: Date.now() }));
+        msg.textContent = 'Assinatura confirmada! Análises liberadas.';
+        msg.className = 'verify-msg success';
+        setTimeout(function() {
+          document.getElementById('limitBox').style.display = 'none';
+        }, 1200);
+      } else {
+        msg.textContent = 'Não encontramos assinatura ativa com esse e-mail.';
+        msg.className = 'verify-msg fail';
+      }
+    })
+    .catch(function() {
+      msg.textContent = 'Erro ao verificar, tenta de novo.';
+      msg.className = 'verify-msg fail';
+    })
+    .finally(function() {
+      btn.disabled = false;
+    });
 }
 
 function getTodayCount() {
@@ -543,6 +627,7 @@ function analyze() {
   var ctaBox = document.getElementById('ctaBox');
 
   errorBox.style.display = 'none';
+  document.getElementById('limitBox').style.display = 'none';
   result.style.display = 'none';
   ctaBox.style.display = 'none';
   document.getElementById('recoveryContent').style.display = 'none';
@@ -556,9 +641,8 @@ function analyze() {
 
   fetch(WORKER_URL + '/contador?tipo=analise_iniciada', { method: 'POST' }).catch(function() {});
 
-  if (getTodayCount() >= DAILY_LIMIT) {
-    errorBox.textContent = 'Voce ja usou suas ' + DAILY_LIMIT + ' analises gratis de hoje. Volta amanha, ou fala com a gente sobre o plano sem limite.';
-    errorBox.style.display = 'block';
+  if (!isAssinanteAtivo() && getTodayCount() >= DAILY_LIMIT) {
+    document.getElementById('limitBox').style.display = 'block';
     return;
   }
 
