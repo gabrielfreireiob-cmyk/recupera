@@ -953,6 +953,12 @@ document.addEventListener('DOMContentLoaded', function() {
       if (typeof fbq === 'function') { fbq('trackCustom', 'CliqueCheckout'); }
     });
   }
+  var linkEbook = document.getElementById('footerEbookLink');
+  if (linkEbook) {
+    linkEbook.addEventListener('click', function() {
+      if (typeof fbq === 'function') { fbq('trackCustom', 'CliqueEbook'); }
+    });
+  }
 });
 </script>
 <!-- End Meta Pixel Custom Events -->
@@ -999,7 +1005,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <span class="footer-quote">"Do 'Oi, quanto custa?' ao Pix na sua conta"</span>
     </div>
 
-    <a href="https://gabrielfreireiob-cmyk.github.io/ebook-dooiaopix/#oferta" class="footer-ebook-card">
+    <a href="https://gabrielfreireiob-cmyk.github.io/ebook-dooiaopix/#oferta" id="footerEbookLink" target="_blank" rel="noopener" class="footer-ebook-card">
       <div class="footer-ebook-text">
         <span class="footer-ebook-eyebrow">Ebook completo</span>
         <span class="footer-ebook-title">Conhecer o método completo</span>
@@ -1366,6 +1372,10 @@ document.getElementById('recoverBtn').addEventListener('click', function() {
   if (!isExampleMode) {
     fetch(WORKER_URL + '/contador?tipo=ver_recuperar_clicado', { method: 'POST' }).catch(function() {});
   }
+});
+
+document.getElementById('footerEbookLink').addEventListener('click', function() {
+  fetch(WORKER_URL + '/contador?tipo=clique_ebook', { method: 'POST' }).catch(function() {});
 });
 
 function copyText(elId, btn) {
