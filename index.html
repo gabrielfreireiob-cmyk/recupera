@@ -665,6 +665,119 @@
   }
   .plan-secondary:hover { color: var(--gold); }
 
+  /* ---------- MÉTODO COMPLETO (assinante) ---------- */
+  .metodo-capa { text-align: center; margin-bottom: 24px; }
+  .metodo-eyebrow {
+    font-family: 'Space Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+  }
+  .metodo-titulo { font-size: 22px; font-weight: 600; line-height: 1.25; margin-bottom: 6px; }
+  .metodo-sub { font-size: 13px; color: var(--text-secondary); }
+  .metodo-item {
+    display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 8px; cursor: pointer; color: var(--text-primary);
+    font-family: 'Inter', sans-serif; transition: border-color 0.15s var(--ease);
+  }
+  .metodo-item:hover { border-color: var(--gold-dim); }
+  .metodo-item.destaque { border-color: var(--gold); background: rgba(232,163,61,0.07); }
+  .metodo-num { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--gold); flex-shrink: 0; }
+  .metodo-item-tit { font-size: 14px; font-weight: 500; line-height: 1.35; flex: 1; }
+  .metodo-seta { color: var(--text-secondary); font-size: 15px; flex-shrink: 0; }
+  .metodo-cap-cabeca { margin-bottom: 18px; }
+  .metodo-cap-num { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--gold); letter-spacing: 0.06em; }
+  .metodo-cap-tit { font-size: 21px; font-weight: 600; line-height: 1.25; margin-top: 4px; }
+  .m-p { font-size: 14.5px; line-height: 1.65; color: #cfcfcf; margin-bottom: 14px; }
+  .m-p b { color: var(--text-primary); }
+  .m-p a { color: var(--gold); }
+  .m-sub { font-size: 14.5px; font-weight: 600; margin: 20px 0 8px; }
+  .m-script {
+    background: #0a0a0a; border: 1px solid var(--border); border-left: 3px solid var(--gold);
+    border-radius: 8px; padding: 13px 15px; margin-bottom: 12px;
+  }
+  .m-script-rot {
+    font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--gold); margin-bottom: 6px;
+  }
+  .m-script-txt { font-size: 14px; line-height: 1.55; color: #e0e0e0; font-style: italic; }
+  .m-copiar {
+    background: none; border: 1px solid var(--border); color: var(--text-secondary);
+    border-radius: 999px; padding: 5px 12px; font-size: 11.5px; margin-top: 10px;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+  }
+  .m-copiar:hover { border-color: var(--gold); color: var(--gold); }
+  .m-copiar.feito { border-color: var(--success); color: var(--success); }
+  .m-passo { display: flex; gap: 12px; margin-bottom: 14px; }
+  .m-passo-n {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+    background: rgba(232,163,61,0.15); border: 1px solid var(--gold-dim); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+  }
+  .m-passo-tit { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .m-passo-txt { font-size: 13.5px; line-height: 1.55; color: var(--text-secondary); }
+  .m-cit {
+    border-left: 3px solid var(--gold); padding: 4px 0 4px 14px; margin: 16px 0;
+    font-size: 15px; line-height: 1.5; font-style: italic; color: #e3e3e3;
+  }
+  .m-alerta {
+    background: rgba(217,80,60,0.08); border: 1px solid rgba(217,80,60,0.3);
+    border-radius: 10px; padding: 13px 15px; margin-bottom: 14px;
+  }
+  .m-alerta-rot {
+    font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #e57a68; margin-bottom: 5px;
+  }
+  .m-alerta-txt { font-size: 13.5px; line-height: 1.55; color: #cfcfcf; }
+  .m-exerc {
+    background: rgba(38,178,76,0.07); border: 1px solid rgba(38,178,76,0.3);
+    border-radius: 10px; padding: 13px 15px; margin: 16px 0 4px;
+  }
+  .m-exerc-rot {
+    font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--success); margin-bottom: 5px;
+  }
+  .m-exerc-txt { font-size: 13.5px; line-height: 1.55; color: #cfcfcf; }
+  .m-check { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; font-size: 13.5px; line-height: 1.5; color: #cfcfcf; }
+  .m-check span.cx { width: 15px; height: 15px; border: 1px solid var(--gold-dim); border-radius: 3px; flex-shrink: 0; margin-top: 2px; }
+  .m-tab { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 13px; }
+  .m-tab th { text-align: left; padding: 8px 10px; font-weight: 600; border-bottom: 1px solid var(--border); }
+  .m-tab th:first-child { color: var(--success); }
+  .m-tab th:last-child { color: #e57a68; }
+  .m-tab td { padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+  .m-ba { display: grid; grid-template-columns: 1fr; gap: 8px; margin-bottom: 14px; }
+  .m-ba-cx { border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.5; }
+  .m-ba-cx.ruim { background: rgba(217,80,60,0.08); border: 1px solid rgba(217,80,60,0.3); }
+  .m-ba-cx.bom { background: rgba(38,178,76,0.08); border: 1px solid rgba(38,178,76,0.3); }
+  .m-ba-rot { font-family: 'Space Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; display: block; }
+  .m-ba-cx.ruim .m-ba-rot { color: #e57a68; }
+  .m-ba-cx.bom .m-ba-rot { color: var(--success); }
+  .m-ba-linha { color: var(--text-secondary); margin-bottom: 3px; }
+  .m-ba-linha b { color: #e0e0e0; font-weight: 500; }
+  .m-comp { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .m-comp-cx { border-radius: 10px; padding: 13px; text-align: center; font-size: 12.5px; }
+  .m-comp-cx.fraco { background: #0a0a0a; border: 1px solid var(--border); color: var(--text-secondary); }
+  .m-comp-cx.forte { background: rgba(38,178,76,0.08); border: 1px solid rgba(38,178,76,0.35); color: #cfcfcf; }
+  .m-comp-rot { font-family: 'Space Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; opacity: 0.75; }
+  .metodo-nav {
+    display: flex; gap: 8px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border);
+  }
+  .metodo-nav button {
+    flex: 1; background: transparent; border: 1px solid var(--border); color: var(--text-secondary);
+    border-radius: var(--radius-sm); padding: 11px; font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif;
+  }
+  .metodo-nav button:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+  .metodo-nav button:disabled { opacity: 0.3; cursor: default; }
+
+  /* Ponte entre o diagnóstico e o capítulo do método */
+  .lib-acao {
+    display: block; width: 100%; margin-top: 10px; text-align: left;
+    background: rgba(232,163,61,0.08); border: 1px solid var(--gold-dim); color: var(--gold);
+    border-radius: 8px; padding: 11px 14px; font-size: 13px; cursor: pointer;
+    font-family: 'Inter', sans-serif; text-decoration: none;
+  }
+  .lib-acao:hover { background: rgba(232,163,61,0.15); }
+
   /* ---------- HISTORY ---------- */
   .trend-box {
     background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm);
@@ -1005,6 +1118,7 @@
 
     </div>
     <div class="header-actions">
+      <a href="#" class="header-link" id="metodoLink" style="display:none;color:var(--gold);">Método</a>
       <a href="#" class="header-link" id="historyLink">Meu histórico</a>
       <a href="#" class="header-link" id="loginLink">Entrar</a>
       <a href="#" class="header-signup" id="signupLink">Cadastre-se gratuitamente</a>
@@ -1211,6 +1325,11 @@
       <button class="back-link" id="backFromHistory">← Nova análise</button>
       <div class="trend-box" id="trendBox" style="display:none;"></div>
       <div id="historyList"></div>
+    </div>
+
+    <div id="metodoState" class="result-state" style="display:none;">
+      <button class="back-link" id="backFromMetodo">← Nova análise</button>
+      <div id="metodoConteudo"></div>
     </div>
   </div>
 </section>
@@ -1786,6 +1905,12 @@ function isAssinanteAtivo() {
   }
 }
 
+function emailDoAssinante() {
+  var cache = armazenamento.ler('recupera_assinante_cache');
+  if (!cache) return '';
+  try { return JSON.parse(cache).email || ''; } catch (e) { return ''; }
+}
+
 document.getElementById('verifyBtn').addEventListener('click', function() {
   var input = document.getElementById('subscriberEmail');
   var email = input.value.trim();
@@ -1806,9 +1931,10 @@ document.getElementById('verifyBtn').addEventListener('click', function() {
     .then(function(res) { return res.json(); })
     .then(function(data) {
       if (data.ativo) {
-        armazenamento.gravar('recupera_assinante_cache', JSON.stringify({ email: email, ativo: true, verificadoEm: Date.now() }));
+        armazenamento.gravar('recupera_assinante_cache', JSON.stringify({ email: email.toLowerCase(), ativo: true, verificadoEm: Date.now() }));
         document.getElementById('limitUnverified').style.display = 'none';
         document.getElementById('limitVerified').style.display = 'block';
+        atualizarAcessoMetodo();
       } else {
         msg.textContent = 'Não encontramos assinatura ativa com esse e-mail.';
         msg.className = 'verify-msg fail';
@@ -1825,6 +1951,214 @@ document.getElementById('backFromLimit').addEventListener('click', function() {
   document.getElementById('dailyLimitState').style.display = 'none';
   document.getElementById('inputState').style.display = 'block';
 });
+
+// ================== MÉTODO COMPLETO (só assinante) ==================
+// O conteúdo mora no Worker e só é entregue depois da checagem do e-mail no KV.
+// Aqui a gente só desenha o que vier de lá.
+var metodoCache = null;
+var capituloPorErro = {};
+
+function esconderTodasAsTelas() {
+  ['inputState', 'dailyLimitState', 'resultState', 'historyState', 'metodoState'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+function atualizarAcessoMetodo() {
+  var link = document.getElementById('metodoLink');
+  if (link) { link.style.display = isAssinanteAtivo() ? 'inline-block' : 'none'; }
+}
+
+// Ao ler o método (ou o histórico), a chamada de venda do topo só atrapalha.
+function focoDeLeitura(ativo) {
+  ['.hero .eyebrow', '.hero h1', '.hero .lead'].forEach(function(sel) {
+    var el = document.querySelector(sel);
+    if (el) el.style.display = ativo ? 'none' : '';
+  });
+}
+
+function carregarMetodo() {
+  if (metodoCache) return Promise.resolve(metodoCache);
+  var email = emailDoAssinante();
+  if (!email) return Promise.reject(new Error('Verifica seu e-mail de assinante primeiro.'));
+  return fetch(WORKER_URL + '/metodo?email=' + encodeURIComponent(email))
+    .then(function(res) {
+      return res.json().then(function(data) {
+        if (!res.ok) throw new Error(data.error || 'Não consegui carregar o método.');
+        return data;
+      });
+    })
+    .then(function(data) {
+      metodoCache = data.metodo;
+      capituloPorErro = data.capituloPorErro || {};
+      return metodoCache;
+    });
+}
+
+function escapar(t) {
+  return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function desenharBloco(b) {
+  if (b.t === 'p') return '<p class="m-p">' + b.v + '</p>';
+  if (b.t === 'sub') return '<div class="m-sub">' + escapar(b.v) + '</div>';
+  if (b.t === 'citacao') return '<div class="m-cit">' + escapar(b.v) + '</div>';
+  if (b.t === 'script') {
+    return '<div class="m-script"><div class="m-script-rot">' + escapar(b.rotulo) + '</div>' +
+      '<div class="m-script-txt">' + escapar(b.v) + '</div>' +
+      '<button class="m-copiar" data-copiar="' + escapar(b.v).replace(/"/g, '&quot;') + '">Copiar</button></div>';
+  }
+  if (b.t === 'passos') {
+    return b.itens.map(function(it, i) {
+      return '<div class="m-passo"><div class="m-passo-n">' + (i + 1) + '</div><div>' +
+        '<div class="m-passo-tit">' + escapar(it.titulo) + '</div>' +
+        '<div class="m-passo-txt">' + escapar(it.texto) + '</div></div></div>';
+    }).join('');
+  }
+  if (b.t === 'alerta') {
+    return '<div class="m-alerta"><div class="m-alerta-rot">' + escapar(b.rotulo || 'Atenção') + '</div>' +
+      '<div class="m-alerta-txt">' + escapar(b.v) + '</div></div>';
+  }
+  if (b.t === 'exercicio') {
+    return '<div class="m-exerc"><div class="m-exerc-rot">Exercício rápido</div>' +
+      '<div class="m-exerc-txt">' + escapar(b.v) + '</div></div>';
+  }
+  if (b.t === 'checklist') {
+    return (b.rotulo ? '<div class="m-sub">' + escapar(b.rotulo) + '</div>' : '') +
+      (b.intro ? '<p class="m-p">' + escapar(b.intro) + '</p>' : '') +
+      b.itens.map(function(i) {
+        return '<div class="m-check"><span class="cx"></span><span>' + escapar(i) + '</span></div>';
+      }).join('');
+  }
+  if (b.t === 'tabela') {
+    return '<table class="m-tab"><thead><tr>' +
+      b.cabecalho.map(function(c) { return '<th>' + escapar(c) + '</th>'; }).join('') +
+      '</tr></thead><tbody>' +
+      b.linhas.map(function(l) {
+        return '<tr>' + l.map(function(c) { return '<td>' + escapar(c) + '</td>'; }).join('') + '</tr>';
+      }).join('') + '</tbody></table>';
+  }
+  if (b.t === 'antesdepois') {
+    return '<div class="m-ba">' +
+      '<div class="m-ba-cx ruim"><span class="m-ba-rot">✕ Antes</span>' +
+        '<div class="m-ba-linha">' + escapar(b.antes.cliente) + '</div>' +
+        '<div class="m-ba-linha"><b>' + escapar(b.antes.voce) + '</b></div></div>' +
+      '<div class="m-ba-cx bom"><span class="m-ba-rot">✓ Depois</span>' +
+        '<div class="m-ba-linha">' + escapar(b.depois.cliente) + '</div>' +
+        '<div class="m-ba-linha"><b>' + escapar(b.depois.voce) + '</b></div></div></div>';
+  }
+  if (b.t === 'comparativo') {
+    return '<div class="m-comp">' +
+      '<div class="m-comp-cx fraco"><div class="m-comp-rot">' + escapar(b.a.rotulo) + '</div>' + escapar(b.a.v) + '</div>' +
+      '<div class="m-comp-cx forte"><div class="m-comp-rot">' + escapar(b.b.rotulo) + '</div>' + escapar(b.b.v) + '</div></div>';
+  }
+  return '';
+}
+
+function ligarBotoesCopiar(raiz) {
+  Array.prototype.forEach.call(raiz.querySelectorAll('.m-copiar'), function(btn) {
+    btn.addEventListener('click', function() {
+      var texto = btn.getAttribute('data-copiar');
+      var pronto = function() {
+        btn.textContent = 'Copiado';
+        btn.classList.add('feito');
+        setTimeout(function() { btn.textContent = 'Copiar'; btn.classList.remove('feito'); }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texto).then(pronto).catch(function() {});
+      }
+      fetch(WORKER_URL + '/contador?tipo=script_metodo_copiado', { method: 'POST' }).catch(function() {});
+    });
+  });
+}
+
+function mostrarIndiceMetodo(destaque) {
+  var alvo = document.getElementById('metodoConteudo');
+  var m = metodoCache;
+  var html = '<div class="metodo-capa"><div class="metodo-eyebrow">Método completo</div>' +
+    '<div class="metodo-titulo">' + escapar(m.titulo) + '</div>' +
+    '<div class="metodo-sub">' + escapar(m.subtitulo) + '</div></div>';
+  m.capitulos.forEach(function(c) {
+    html += '<button class="metodo-item' + (c.id === destaque ? ' destaque' : '') + '" data-cap="' + c.id + '">' +
+      '<span class="metodo-num">' + c.id + '</span>' +
+      '<span class="metodo-item-tit">' + escapar(c.titulo) + '</span>' +
+      '<span class="metodo-seta">›</span></button>';
+  });
+  html += '<button class="metodo-item" data-cap="kit">' +
+    '<span class="metodo-num">+</span>' +
+    '<span class="metodo-item-tit">Kit de scripts: cola de consulta rápida</span>' +
+    '<span class="metodo-seta">›</span></button>';
+  alvo.innerHTML = html;
+  document.getElementById('backFromMetodo').style.display = 'block';
+  Array.prototype.forEach.call(alvo.querySelectorAll('[data-cap]'), function(btn) {
+    btn.addEventListener('click', function() { abrirCapitulo(btn.getAttribute('data-cap')); });
+  });
+  alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function abrirCapitulo(id) {
+  var alvo = document.getElementById('metodoConteudo');
+  var m = metodoCache;
+  var html = '<button class="back-link" data-voltar="1">← Todos os capítulos</button>';
+
+  if (id === 'kit') {
+    html += '<div class="metodo-cap-cabeca"><div class="metodo-cap-num">Encarte final</div>' +
+      '<div class="metodo-cap-tit">Kit de scripts</div></div>' +
+      '<p class="m-p">Sem explicação, só o texto pronto pra copiar e colar.</p>';
+    m.kit.forEach(function(k) {
+      html += desenharBloco({ t: 'script', rotulo: k.rotulo, v: k.v });
+    });
+  } else {
+    var idx = -1;
+    m.capitulos.forEach(function(c, i) { if (c.id === id) idx = i; });
+    if (idx === -1) { mostrarIndiceMetodo(); return; }
+    var cap = m.capitulos[idx];
+    html += '<div class="metodo-cap-cabeca"><div class="metodo-cap-num">CAPÍTULO ' + cap.id + '</div>' +
+      '<div class="metodo-cap-tit">' + escapar(cap.titulo) + '</div></div>';
+    cap.blocos.forEach(function(b) { html += desenharBloco(b); });
+    html += '<div class="metodo-nav">' +
+      '<button data-ir="' + (idx > 0 ? m.capitulos[idx - 1].id : '') + '"' + (idx > 0 ? '' : ' disabled') + '>← Anterior</button>' +
+      '<button data-ir="' + (idx < m.capitulos.length - 1 ? m.capitulos[idx + 1].id : 'kit') + '">Próximo →</button></div>';
+  }
+
+  alvo.innerHTML = html;
+  document.getElementById('backFromMetodo').style.display = 'none';
+  ligarBotoesCopiar(alvo);
+  var voltar = alvo.querySelector('[data-voltar]');
+  if (voltar) voltar.addEventListener('click', function() { mostrarIndiceMetodo(); });
+  Array.prototype.forEach.call(alvo.querySelectorAll('[data-ir]'), function(btn) {
+    var destino = btn.getAttribute('data-ir');
+    if (destino) btn.addEventListener('click', function() { abrirCapitulo(destino); });
+  });
+  alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function abrirMetodo(capitulo) {
+  esconderTodasAsTelas();
+  focoDeLeitura(true);
+  var tela = document.getElementById('metodoState');
+  tela.style.display = 'block';
+  document.getElementById('metodoConteudo').innerHTML = '<div class="loading-state">Abrindo o método<span class="loading-dots"></span></div>';
+  carregarMetodo().then(function() {
+    if (capitulo) { abrirCapitulo(capitulo); } else { mostrarIndiceMetodo(); }
+    fetch(WORKER_URL + '/contador?tipo=metodo_aberto', { method: 'POST' }).catch(function() {});
+  }).catch(function(err) {
+    document.getElementById('metodoConteudo').innerHTML =
+      '<div class="loading-state" style="color:#e57a68;">' + escapar(err.message) + '</div>';
+  });
+}
+
+document.getElementById('metodoLink').addEventListener('click', function(e) {
+  e.preventDefault();
+  abrirMetodo(null);
+});
+document.getElementById('backFromMetodo').addEventListener('click', function() {
+  esconderTodasAsTelas();
+  focoDeLeitura(false);
+  document.getElementById('inputState').style.display = 'block';
+});
+atualizarAcessoMetodo();
 
 // ================== HISTÓRICO ==================
 function getHistory() {
@@ -1860,14 +2194,14 @@ function renderHistory() {
 
 document.getElementById('historyLink').addEventListener('click', function(e) {
   e.preventDefault();
-  document.getElementById('inputState').style.display = 'none';
-  document.getElementById('dailyLimitState').style.display = 'none';
-  document.getElementById('resultState').style.display = 'none';
+  esconderTodasAsTelas();
+  focoDeLeitura(true);
   document.getElementById('historyState').style.display = 'block';
   renderHistory();
 });
 document.getElementById('backFromHistory').addEventListener('click', function() {
-  document.getElementById('historyState').style.display = 'none';
+  esconderTodasAsTelas();
+  focoDeLeitura(false);
   document.getElementById('inputState').style.display = 'block';
 });
 
@@ -1988,7 +2322,32 @@ document.getElementById('analyzeBtn').addEventListener('click', function() {
     document.getElementById('followup72').innerHTML = '<span class="fu-label">72 horas depois</span>' + (parsed.followup_72h || '');
 
     var libText = LIBRARY[parsed.categoria_erro] || LIBRARY['nenhum_erro_grave'];
-    document.querySelector('#resultState .lib-box').innerHTML = libText;
+    var caixaLib = document.querySelector('#resultState .lib-box');
+    caixaLib.innerHTML = libText;
+
+    // Ponte pro método: o diagnóstico aponta um capítulo, e esse capítulo existe
+    // de verdade. Assinante lê na hora; quem não assina vê o que está perdendo.
+    var achou = libText.match(/Cap[ií]tulo\s+(\d+)/i);
+    var numeroCap = achou ? achou[1] : null;
+    var acaoAntiga = document.getElementById('libAcao');
+    if (acaoAntiga) acaoAntiga.remove();
+    if (numeroCap) {
+      var acao = document.createElement('button');
+      acao.className = 'lib-acao';
+      acao.id = 'libAcao';
+      if (isAssinanteAtivo()) {
+        acao.textContent = '📖 Ler o capítulo ' + numeroCap + ' completo, com os scripts prontos';
+        acao.addEventListener('click', function() { abrirMetodo(numeroCap); });
+      } else {
+        acao.textContent = '🔒 O capítulo ' + numeroCap + ' completo, com os scripts prontos, vem no Recupera Ouro';
+        acao.addEventListener('click', function() {
+          fetch(WORKER_URL + '/contador?tipo=teaser_metodo_clicado', { method: 'POST' }).catch(function() {});
+          var oferta = document.getElementById('goldOffer');
+          if (oferta) oferta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      }
+      caixaLib.parentNode.insertBefore(acao, caixaLib.nextSibling);
+    }
 
     lastDiagnosisContext = 'Nota: ' + parsed.nota + '. Onde perdeu: ' + (parsed.onde_perdeu || '') + '. Por que perdeu: ' + (parsed.por_que_perdeu || '') + '. Resposta sugerida: ' + (parsed.resposta_sugerida || '');
     chatHistory = [];
