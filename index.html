@@ -1225,7 +1225,7 @@
   <button class="shot-close" id="shotClose" title="Fechar">✕</button>
   <img id="shotImg" src="" alt="Conversa de quem usou o Recupera">
   <div id="shotMissing" style="display:none;max-width:340px;margin-top:80px;text-align:center;font-size:13.5px;line-height:1.6;color:#828282;">
-    Não consegui carregar esse print.<br>Confere se a pasta <b style="color:#e8a33d;">prints</b> foi publicada junto com a página.
+    Não consegui carregar esse print.<br>Confere se os 3 arquivos <b style="color:#e8a33d;">depoimento-*.jpg</b> foram publicados junto com a página.
   </div>
 </div>
 
@@ -1328,7 +1328,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="proof-role">Loja de roupas</div>
           </div>
         </div>
-        <button class="proof-see" data-shot="prints/depoimento-lojista.jpg" data-quem="Lojista, loja de roupas">Ver a conversa</button>
+        <button class="proof-see" data-shot="depoimento-lojista.jpg" data-quem="Lojista, loja de roupas">Ver a conversa</button>
       </div>
       <div class="proof-card">
         <div class="proof-quote">"Testei com outro lead e foi bem diferente. Fiz 3 perguntas antes de falar de solução e ele se abriu muito mais. Marcamos uma call pra amanhã. Acho que eu não ia conseguir isso do jeito que eu estava fazendo."</div>
@@ -1339,7 +1339,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="proof-role">Agência de tráfego</div>
           </div>
         </div>
-        <button class="proof-see" data-shot="prints/depoimento-bruno.jpg" data-quem="Bruno, agência de tráfego">Ver a conversa</button>
+        <button class="proof-see" data-shot="depoimento-bruno.jpg" data-quem="Bruno, agência de tráfego">Ver a conversa</button>
       </div>
       <div class="proof-card">
         <div class="proof-quote">"Revisei uma conversa antiga com um lead que não fechou e o Recupera mostrou um ponto que passou batido por mim. Ajustei a abordagem, falei com ele de novo e marcamos uma reunião."</div>
@@ -1350,7 +1350,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="proof-role">Consultoria financeira</div>
           </div>
         </div>
-        <button class="proof-see" data-shot="prints/depoimento-rafael.jpg" data-quem="Rafael, consultoria financeira">Ver a conversa</button>
+        <button class="proof-see" data-shot="depoimento-rafael.jpg" data-quem="Rafael, consultoria financeira">Ver a conversa</button>
       </div>
     </div>
     <div class="proof-foot">Prints reais de quem usou o Recupera, publicados com autorização</div>
@@ -1549,7 +1549,7 @@ function formatarValorBR(v) {
     fetch(WORKER_URL + '/contador?tipo=ver_print_depoimento', { method: 'POST' }).catch(function() {});
   }
 
-  // Se a pasta prints/ não subir junto com o index, avisa em vez de abrir vazio.
+  // Se as imagens não subirem junto com o index, avisa em vez de abrir vazio.
   img.addEventListener('error', function() {
     img.style.display = 'none';
     if (aviso) { aviso.style.display = 'block'; }
